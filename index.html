@@ -1,263 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#070910" />
-  <meta name="description" content="Games Unblocked — a fast, polished browser game hub with self-hosted games." />
-  <meta name="color-scheme" content="dark light" />
-  <title>Games Unblocked — Play instantly</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18122b">
+  <meta name="description" content="Games Unblocked - a colorful self-hosted browser game playground.">
+  <title>Games Unblocked</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="page-loader" id="pageLoader" aria-hidden="true">
-    <div class="loader-logo">GU</div>
-    <div class="loader-line"><span></span></div>
-  </div>
-
-  <div class="background-layer" aria-hidden="true">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <div class="ambient ambient-three"></div>
-    <div class="noise"></div>
-    <div class="stars" id="stars"></div>
-  </div>
-
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <header class="topbar" id="topbar">
-    <div class="topbar-inner shell-wide">
-      <a class="brand magnetic" href="#top" aria-label="Games Unblocked home">
-        <div class="brand-mark"><span>GU</span></div>
-        <div class="brand-copy">
-          <strong>Games Unblocked</strong>
-          <span>Play instantly</span>
-        </div>
-      </a>
-
-      <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="#games" data-nav>Games</a>
-        <a href="#featured" data-nav>Featured</a>
-        <a href="#popular" data-nav>Popular</a>
-        <a href="#recent" data-nav>Recent</a>
-      </nav>
-
-      <div class="header-actions">
-        <button class="icon-button magnetic" id="quickSearchBtn" aria-label="Open search" title="Search">
-          <span>⌕</span>
-        </button>
-        <button class="icon-button magnetic" id="randomGameBtn" aria-label="Play random game" title="Random game">
-          <span>🎲</span>
-        </button>
-        <button class="icon-button magnetic" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
-          <span id="themeIcon">☀️</span>
-        </button>
-        <button class="mobile-menu-button" id="mobileMenuBtn" aria-label="Open menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="#games">Games</a>
-      <a href="#featured">Featured</a>
-      <a href="#popular">Popular</a>
-      <a href="#recent">Recent</a>
+  <div class="bg-bubble b1"></div><div class="bg-bubble b2"></div><div class="bg-bubble b3"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#top"><span class="logo-icon">🎮</span><span>Games <b>Unblocked</b></span></a>
+      <div class="header-search"><span>🔎</span><input id="searchInput" placeholder="Search a game..." autocomplete="off"><kbd>/</kbd></div>
+      <div class="header-buttons"><button id="randomBtn" class="round-btn" title="Random game">🎲</button><button id="favoritesBtn" class="round-btn" title="Favorites">⭐</button></div>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero shell">
-      <div class="hero-copy reveal-up">
-        <div class="eyebrow">
-          <span class="status-dot"></span>
-          <span>Instant browser gaming</span>
-          <span class="eyebrow-pill">NO INSTALLS</span>
-        </div>
-
-        <h1>
-          <span class="hero-line">Find a game.</span>
-          <span class="hero-line gradient-text">Start playing.</span>
-        </h1>
-
-        <p class="hero-description">
-          A fast game library built for quick play. Search, favorite, continue where you left off and jump straight into games hosted with the site.
-        </p>
-
-        <div class="search-wrap" id="heroSearchWrap">
-          <span class="search-icon" aria-hidden="true">⌕</span>
-          <input id="searchInput" type="search" placeholder="Search games, genres, tags..." autocomplete="off" aria-label="Search games" />
-          <button class="search-clear" id="searchClear" aria-label="Clear search">×</button>
-          <kbd>/</kbd>
-        </div>
-
-        <div class="search-suggestions" id="searchSuggestions" aria-live="polite"></div>
-
-        <div class="hero-actions">
-          <a class="primary-button magnetic" href="#games">
-            <span>Browse games</span>
-            <span class="button-arrow">→</span>
-          </a>
-          <button class="secondary-button magnetic" id="heroRandomBtn">
-            <span>Surprise me</span>
-            <span>✦</span>
-          </button>
-        </div>
-
-        <div class="hero-meta">
-          <div class="avatar-stack" aria-hidden="true"><i>G</i><i>U</i><i>+</i></div>
-          <span><strong id="heroGameCount">0</strong> games ready to play</span>
-        </div>
+    <section class="welcome wrap">
+      <div class="welcome-copy">
+        <span class="tiny-label">READY TO PLAY?</span>
+        <h1>Pick a game and <span>have fun.</span></h1>
+        <p>No installs. No accounts. Just click a game and start playing.</p>
+        <div class="quick-actions"><button class="big-play" id="playRandom">▶ Play random</button><a class="ghost-play" href="#allGames">See all games ↓</a></div>
       </div>
-
-      <div class="hero-showcase reveal-scale" id="heroShowcase" aria-hidden="true">
-        <div class="showcase-grid"></div>
-        <div class="showcase-scan"></div>
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="hero-orb" id="heroOrb">
-          <span class="orb-ring"></span>
-          <span class="orb-core">PLAY</span>
-        </div>
-        <div class="floating-card card-a" data-parallax="0.7">
-          <span class="floating-index">01</span><strong>NEON SNAKE</strong><small>Arcade • Fast</small>
-        </div>
-        <div class="floating-card card-b" data-parallax="1.1">
-          <span class="floating-index">02</span><strong>BRICK BOUNCE</strong><small>Classic • Skill</small>
-        </div>
-        <div class="floating-card card-c" data-parallax="0.9">
-          <span class="floating-index">03</span><strong>TILE MERGE</strong><small>Puzzle • Chill</small>
-        </div>
-        <div class="floating-chip chip-a">NO ADS IN CORE GAMES</div>
-        <div class="floating-chip chip-b">LOCAL HIGHSCORES</div>
+      <div class="mascot-card" id="mascotCard">
+        <div class="pixel-spark s1">✦</div><div class="pixel-spark s2">★</div><div class="pixel-spark s3">✦</div>
+        <div class="controller">🎮</div>
+        <strong>7 games</strong><span>and growing!</span>
       </div>
     </section>
 
-    <section class="stats shell reveal-up" aria-label="Site statistics">
-      <div class="stat-card"><strong id="gameCount">0</strong><span>Games ready</span><i>01</i></div>
-      <div class="stat-card"><strong>100%</strong><span>Browser based</span><i>02</i></div>
-      <div class="stat-card"><strong>0</strong><span>Downloads needed</span><i>03</i></div>
-      <div class="stat-card"><strong>∞</strong><span>Replay value</span><i>04</i></div>
+    <section class="wrap continue-section" id="continueSection">
+      <div class="section-head"><div><span class="tiny-label">JUMP BACK IN</span><h2>Continue playing</h2></div><button id="clearRecent" class="text-btn">Clear history</button></div>
+      <div id="recentRow" class="horizontal-games"></div>
     </section>
 
-    <section class="shell content-section" id="featured">
-      <div class="section-heading reveal-up">
-        <div>
-          <span class="section-kicker">Featured</span>
-          <h2>Jump straight in</h2>
-          <p>Three polished games, fully hosted inside this project.</p>
-        </div>
-      </div>
-      <div class="featured-grid" id="featuredGrid"></div>
-    </section>
-
-    <section class="marquee-section" aria-hidden="true">
-      <div class="marquee-track">
-        <span>ARCADE</span><i>✦</i><span>PUZZLE</span><i>✦</i><span>CLASSIC</span><i>✦</i><span>FAST</span><i>✦</i><span>NO INSTALL</span><i>✦</i><span>PLAY NOW</span><i>✦</i>
-        <span>ARCADE</span><i>✦</i><span>PUZZLE</span><i>✦</i><span>CLASSIC</span><i>✦</i><span>FAST</span><i>✦</i><span>NO INSTALL</span><i>✦</i><span>PLAY NOW</span><i>✦</i>
+    <section class="wrap category-section">
+      <div class="section-head"><div><span class="tiny-label">FIND YOUR VIBE</span><h2>Categories</h2></div></div>
+      <div class="category-row" id="categoryRow">
+        <button class="category-pill active" data-category="all"><span>✨</span> All</button>
+        <button class="category-pill" data-category="arcade"><span>🕹️</span> Arcade</button>
+        <button class="category-pill" data-category="action"><span>🚀</span> Action</button>
+        <button class="category-pill" data-category="skill"><span>⚡</span> Skill</button>
+        <button class="category-pill" data-category="puzzle"><span>🧠</span> Puzzle</button>
+        <button class="category-pill" data-category="classic"><span>👾</span> Classic</button>
       </div>
     </section>
 
-    <section class="shell content-section games-section" id="games">
-      <div class="section-heading reveal-up">
-        <div>
-          <span class="section-kicker">Library</span>
-          <h2>Pick your next game</h2>
-          <p id="resultsLabel">Showing all games</p>
-        </div>
-        <div class="view-controls" aria-label="Game view options">
-          <button class="view-btn active" data-view="grid" aria-label="Grid view">▦</button>
-          <button class="view-btn" data-view="compact" aria-label="Compact view">☷</button>
-        </div>
-      </div>
-
-      <div class="library-toolbar reveal-up">
-        <div class="filter-row" id="filterRow">
-          <button class="filter-chip active" data-filter="all">All games <span>3</span></button>
-          <button class="filter-chip" data-filter="arcade">Arcade</button>
-          <button class="filter-chip" data-filter="classic">Classic</button>
-          <button class="filter-chip" data-filter="puzzle">Puzzle</button>
-          <button class="filter-chip" data-filter="favorites">Favorites</button>
-        </div>
-
-        <label class="sort-control">
-          <span>Sort</span>
-          <select id="sortSelect" aria-label="Sort games">
-            <option value="featured">Featured</option>
-            <option value="az">A–Z</option>
-            <option value="za">Z–A</option>
-            <option value="recent">Recently played</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="games-grid" id="gamesGrid"></div>
-
-      <div class="empty-state hidden" id="emptyState">
-        <div class="empty-icon">⌕</div>
-        <h3>No games found</h3>
-        <p>Try another search term or category.</p>
-        <button id="resetFiltersBtn" class="secondary-button">Reset filters</button>
-      </div>
+    <section class="wrap games-section" id="allGames">
+      <div class="section-head"><div><span class="tiny-label">GAME LIBRARY</span><h2>Choose your game</h2><p id="resultText">7 games ready</p></div><div class="sort-wrap"><select id="sortSelect"><option value="featured">Featured</option><option value="az">A to Z</option><option value="new">Newest</option></select></div></div>
+      <div id="gameGrid" class="game-grid"></div>
+      <div id="emptyState" class="empty-state hidden"><div>😵</div><h3>No games found</h3><p>Try another search or category.</p><button id="resetSearch">Show all games</button></div>
     </section>
 
-    <section class="shell split-sections">
-      <div class="mini-panel reveal-left" id="popular">
-        <div class="mini-heading">
-          <div><span class="section-kicker">Trending</span><h2>Popular now</h2></div>
-          <span class="pill"><span class="pulse-dot"></span> LIVE</span>
-        </div>
-        <div id="popularList" class="rank-list"></div>
-      </div>
-
-      <div class="mini-panel reveal-right" id="recent">
-        <div class="mini-heading">
-          <div><span class="section-kicker">Your history</span><h2>Recently played</h2></div>
-          <button class="text-btn" id="clearRecentBtn">Clear</button>
-        </div>
-        <div id="recentList" class="recent-list"></div>
-      </div>
-    </section>
-
-    <section class="shell quality-grid">
-      <article class="quality-card reveal-up">
-        <span class="quality-number">01</span><div class="quality-icon">⚡</div><h3>Fast loading</h3><p>No framework or giant application bundle. The site stays lightweight and GitHub Pages friendly.</p>
-      </article>
-      <article class="quality-card reveal-up">
-        <span class="quality-number">02</span><div class="quality-icon">✦</div><h3>Polished motion</h3><p>Scroll reveals, hover depth, parallax, animated cards, transitions and reduced-motion support.</p>
-      </article>
-      <article class="quality-card reveal-up">
-        <span class="quality-number">03</span><div class="quality-icon">⌁</div><h3>Persistent progress</h3><p>Favorites, recent games, theme and game highscores are stored locally in your browser.</p>
-      </article>
-    </section>
-
-    <section class="shell about-strip reveal-up">
-      <div>
-        <span class="section-kicker">Built different</span>
-        <h2>Fast by design.</h2>
-      </div>
-      <p>Core games are hosted with the site itself. That avoids broken third-party iframe links and keeps the project simple enough to deploy directly through GitHub Pages.</p>
-      <button class="primary-button magnetic" id="aboutPlayBtn">Play something <span>→</span></button>
+    <section class="wrap fun-strip">
+      <div><span>🏆</span><strong>Beat your highscore</strong><small>Your best scores stay saved in this browser.</small></div>
+      <div><span>⚡</span><strong>Instant loading</strong><small>Games run directly from this GitHub Pages project.</small></div>
+      <div><span>🎯</span><strong>Made to replay</strong><small>Short rounds, simple controls and quick restarts.</small></div>
     </section>
   </main>
 
-  <footer class="footer shell">
-    <div class="brand footer-brand">
-      <div class="brand-mark"><span>GU</span></div>
-      <div class="brand-copy"><strong>Games Unblocked</strong><span>Built for quick play</span></div>
-    </div>
-    <div class="footer-links"><a href="#top">Top</a><a href="#games">Games</a><a href="#featured">Featured</a></div>
-    <p>© <span id="year"></span> Games Unblocked</p>
-  </footer>
-
-  <div class="command-hint" id="commandHint">Press <kbd>/</kbd> to search</div>
-  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
-
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
-
+  <footer><div class="wrap footer-inner"><span>🎮 Games Unblocked</span><span>Made for quick browser gaming</span></div></footer>
+  <div id="toast" class="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>

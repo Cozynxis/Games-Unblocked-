@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <meta name="description" content="Games Unblocked - a polished browser game hub with fast, self-hosted games." />
+  <title>Games Unblocked</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Games Unblocked home">
+      <div class="brand-mark">GU</div>
+      <div>
+        <strong>Games Unblocked</strong>
+        <span>Play instantly</span>
+      </div>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#games">Games</a>
+      <a href="#popular">Popular</a>
+      <a href="#recent">Recent</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-button" id="randomGameBtn" aria-label="Play random game" title="Random game">🎲</button>
+      <button class="icon-button" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">☀️</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> Instant browser gaming</div>
+        <h1>Find a game.<br><span>Start playing.</span></h1>
+        <p>A clean, fast game library built for quick play. No accounts, no installs and no clutter.</p>
+
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search games..." autocomplete="off" />
+          <kbd>/</kbd>
+        </div>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="#games">Browse games <span>→</span></a>
+          <button class="secondary-button" id="heroRandomBtn">Surprise me</button>
+        </div>
+      </div>
+
+      <div class="hero-showcase" aria-hidden="true">
+        <div class="showcase-grid"></div>
+        <div class="floating-card card-a"><span>01</span><strong>NEON SNAKE</strong><small>Arcade</small></div>
+        <div class="floating-card card-b"><span>02</span><strong>BRICK BOUNCE</strong><small>Classic</small></div>
+        <div class="floating-card card-c"><span>03</span><strong>TILE MERGE</strong><small>Puzzle</small></div>
+        <div class="hero-orb"></div>
+      </div>
+    </section>
+
+    <section class="stats shell">
+      <div><strong id="gameCount">3</strong><span>Games ready</span></div>
+      <div><strong>100%</strong><span>Browser based</span></div>
+      <div><strong>0</strong><span>Downloads needed</span></div>
+      <div><strong>∞</strong><span>Replay value</span></div>
+    </section>
+
+    <section class="shell content-section" id="games">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">Library</span>
+          <h2>Pick your next game</h2>
+        </div>
+        <div class="view-controls">
+          <button class="view-btn active" data-view="grid" aria-label="Grid view">▦</button>
+          <button class="view-btn" data-view="compact" aria-label="Compact view">☷</button>
+        </div>
+      </div>
+
+      <div class="filter-row" id="filterRow">
+        <button class="filter-chip active" data-filter="all">All games</button>
+        <button class="filter-chip" data-filter="arcade">Arcade</button>
+        <button class="filter-chip" data-filter="classic">Classic</button>
+        <button class="filter-chip" data-filter="puzzle">Puzzle</button>
+      </div>
+
+      <div class="games-grid" id="gamesGrid"></div>
+      <div class="empty-state hidden" id="emptyState">
+        <div>⌕</div>
+        <h3>No games found</h3>
+        <p>Try another search or category.</p>
+      </div>
+    </section>
+
+    <section class="shell split-sections">
+      <div class="mini-panel" id="popular">
+        <div class="mini-heading"><div><span class="section-kicker">Trending</span><h2>Popular now</h2></div><span class="pill">LIVE</span></div>
+        <div id="popularList" class="rank-list"></div>
+      </div>
+
+      <div class="mini-panel" id="recent">
+        <div class="mini-heading"><div><span class="section-kicker">Your history</span><h2>Recently played</h2></div><button class="text-btn" id="clearRecentBtn">Clear</button></div>
+        <div id="recentList" class="recent-list"></div>
+      </div>
+    </section>
+
+    <section class="shell about-strip">
+      <div>
+        <span class="section-kicker">Built different</span>
+        <h2>Fast by design.</h2>
+      </div>
+      <p>Every included game is hosted with the site itself, so the core library works without third-party game portals or unreliable iframe links.</p>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <div class="brand footer-brand">
+      <div class="brand-mark">GU</div>
+      <div><strong>Games Unblocked</strong><span>Built for quick play</span></div>
+    </div>
+    <p>© <span id="year"></span> Games Unblocked</p>
+  </footer>
+
+  <div class="command-hint" id="commandHint">Press <kbd>/</kbd> to search</div>
+  <script src="script.js"></script>
+</body>
+</html>

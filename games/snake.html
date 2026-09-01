@@ -1,1 +1,169 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neon Snake • Games Unblocked</title><style>*{box-sizing:border-box}body{margin:0;background:#070a10;color:#fff;font-family:Inter,system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;overflow:hidden}.bg{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,rgba(37,255,195,.13),transparent 30%),linear-gradient(#070a10,#090d16);z-index:-1}.wrap{width:min(900px,calc(100% - 24px))}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.left{display:flex;gap:10px;align-items:center}.back,.btn{border:1px solid rgba(255,255,255,.1);background:#111722;color:#fff;border-radius:12px;padding:10px 13px;text-decoration:none;cursor:pointer}.title strong{display:block;font-size:15px}.title span{font-size:10px;color:#758195}.score{display:flex;gap:9px}.score div{background:#111722;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 13px;text-align:center;min-width:76px}.score span{display:block;color:#758195;font-size:9px;text-transform:uppercase}.score strong{font-size:17px}.stage{position:relative;border:1px solid rgba(255,255,255,.09);background:#0b1118;border-radius:22px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.5)}canvas{display:block;width:100%;aspect-ratio:1/1;max-height:72vh;background:#07100f;border-radius:14px}.overlay{position:absolute;inset:16px;display:grid;place-items:center;background:rgba(4,8,10,.68);backdrop-filter:blur(7px);border-radius:14px}.card{text-align:center}.card h1{font-size:42px;margin:0 0 8px}.card p{color:#8b98aa;margin:0 0 18px}.play{border:0;background:linear-gradient(135deg,#39e8aa,#21a8ff);color:#03110d;font-weight:800;border-radius:12px;padding:12px 18px;cursor:pointer}.hint{text-align:center;color:#647083;font-size:11px;margin-top:12px}@media(max-width:600px){.title{display:none}.score div{min-width:60px;padding:8px}.stage{padding:8px}.overlay{inset:8px}.card h1{font-size:31px}}</style></head><body><div class="bg"></div><main class="wrap"><div class="top"><div class="left"><a class="back" href="../index.html">← Library</a><div class="title"><strong>Neon Snake</strong><span>Arcade</span></div></div><div class="score"><div><span>Score</span><strong id="score">0</strong></div><div><span>Best</span><strong id="best">0</strong></div><button class="btn" id="full">⛶</button></div></div><div class="stage" id="stage"><canvas id="game" width="600" height="600"></canvas><div class="overlay" id="overlay"><div class="card"><h1>Neon Snake</h1><p>Arrow keys / WASD to move</p><button class="play" id="start">Start game</button></div></div></div><div class="hint">Collect the orb • Don't hit the wall or yourself • Space = pause</div></main><script>const c=document.getElementById('game'),x=c.getContext('2d'),S=20,N=c.width/S;let snake,dir,next,food,score,running,timer,paused=false,best=+localStorage.getItem('gu-snake-best')||0;bestEl=document.getElementById('best');bestEl.textContent=best;function reset(){snake=[{x:14,y:15},{x:13,y:15},{x:12,y:15}];dir={x:1,y:0};next=dir;score=0;document.getElementById('score').textContent=0;spawn();draw()}function spawn(){do{food={x:Math.floor(Math.random()*N),y:Math.floor(Math.random()*N)}}while(snake.some(p=>p.x===food.x&&p.y===food.y))}function draw(){x.fillStyle='#07100f';x.fillRect(0,0,c.width,c.height);x.strokeStyle='rgba(255,255,255,.025)';for(let i=0;i<=N;i++){x.beginPath();x.moveTo(i*S,0);x.lineTo(i*S,c.height);x.stroke();x.beginPath();x.moveTo(0,i*S);x.lineTo(c.width,i*S);x.stroke()}x.shadowBlur=24;x.shadowColor='#3fffc5';x.fillStyle='#41ffc8';x.beginPath();x.arc(food.x*S+S/2,food.y*S+S/2,S*.32,0,Math.PI*2);x.fill();x.shadowBlur=0;snake.forEach((p,i)=>{const g=x.createLinearGradient(p.x*S,p.y*S,p.x*S+S,p.y*S+S);g.addColorStop(0,i?'#2fe4b1':'#95ffe3');g.addColorStop(1,i?'#168da6':'#2dd4ff');x.fillStyle=g;x.beginPath();x.roundRect(p.x*S+2,p.y*S+2,S-4,S-4,5);x.fill()})}function tick(){if(!running||paused)return;dir=next;const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};if(h.x<0||h.y<0||h.x>=N||h.y>=N||snake.some(p=>p.x===h.x&&p.y===h.y)){gameOver();return}snake.unshift(h);if(h.x===food.x&&h.y===food.y){score++;document.getElementById('score').textContent=score;if(score>best){best=score;bestEl.textContent=best;localStorage.setItem('gu-snake-best',best)}spawn()}else snake.pop();draw()}function start(){reset();running=true;paused=false;document.getElementById('overlay').style.display='none';clearInterval(timer);timer=setInterval(tick,90)}function gameOver(){running=false;clearInterval(timer);const o=document.getElementById('overlay');o.style.display='grid';o.querySelector('h1').textContent='Game over';o.querySelector('p').textContent='Score: '+score+' • Best: '+best;document.getElementById('start').textContent='Play again'}document.getElementById('start').onclick=start;document.addEventListener('keydown',e=>{const k=e.key.toLowerCase(),m={arrowup:{x:0,y:-1},w:{x:0,y:-1},arrowdown:{x:0,y:1},s:{x:0,y:1},arrowleft:{x:-1,y:0},a:{x:-1,y:0},arrowright:{x:1,y:0},d:{x:1,y:0}}[k];if(m){e.preventDefault();if(!(m.x===-dir.x&&m.y===-dir.y))next=m}if(e.code==='Space'&&running){paused=!paused;e.preventDefault()}});document.getElementById('full').onclick=()=>document.getElementById('stage').requestFullscreen?.();reset();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#07100f">
+<title>Neon Snake • Games Unblocked</title>
+<style>
+*{box-sizing:border-box}html,body{overscroll-behavior:none}body{margin:0;background:#070a10;color:#fff;font-family:Inter,system-ui,sans-serif;min-height:100dvh;display:grid;place-items:center;overflow:hidden}.bg{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,rgba(37,255,195,.13),transparent 33%),radial-gradient(circle at 15% 80%,rgba(33,168,255,.09),transparent 30%),linear-gradient(#070a10,#090d16);z-index:-2}.grid{position:fixed;inset:0;z-index:-1;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent)}.wrap{width:min(900px,calc(100% - 24px));padding:14px 0}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}.left{display:flex;gap:10px;align-items:center}.back,.btn{border:1px solid rgba(255,255,255,.1);background:#111722;color:#fff;border-radius:12px;padding:10px 13px;text-decoration:none;cursor:pointer;transition:.2s}.back:hover,.btn:hover{background:#182130;transform:translateY(-2px)}.title strong{display:block;font-size:15px}.title span{font-size:10px;color:#758195}.score{display:flex;gap:9px}.score div{background:#111722;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:9px 13px;text-align:center;min-width:76px}.score span{display:block;color:#758195;font-size:9px;text-transform:uppercase}.score strong{font-size:17px}.stage{position:relative;border:1px solid rgba(255,255,255,.09);background:#0b1118;border-radius:22px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden}.stage:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent,rgba(63,255,197,.025),transparent);animation:shine 6s infinite}canvas{position:relative;z-index:1;display:block;width:100%;aspect-ratio:1/1;max-height:72vh;background:#07100f;border-radius:14px;touch-action:none}.overlay{position:absolute;z-index:4;inset:16px;display:grid;place-items:center;background:rgba(4,8,10,.72);backdrop-filter:blur(9px);border-radius:14px;transition:.25s}.overlay.hidden{opacity:0;pointer-events:none}.card{text-align:center;padding:25px}.card h1{font-size:42px;margin:0 0 8px;letter-spacing:-.04em}.card p{color:#8b98aa;margin:0 0 18px;font-size:13px}.play{border:0;background:linear-gradient(135deg,#39e8aa,#21a8ff);color:#03110d;font-weight:900;border-radius:12px;padding:12px 19px;cursor:pointer;box-shadow:0 12px 35px rgba(41,224,173,.2);transition:.2s}.play:hover{transform:translateY(-2px) scale(1.03)}.hint{text-align:center;color:#647083;font-size:11px;margin-top:12px}.pause-pill{position:absolute;left:50%;top:28px;z-index:3;transform:translateX(-50%) translateY(-10px);background:rgba(8,13,18,.85);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:7px 12px;font-size:9px;font-weight:800;letter-spacing:.1em;opacity:0;transition:.2s}.pause-pill.show{opacity:1;transform:translateX(-50%) translateY(0)}.controls{display:none;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(2,54px);justify-content:center;gap:6px;margin-top:12px}.dir{border:1px solid rgba(255,255,255,.09);background:#111722;color:#fff;border-radius:14px;font-size:18px;touch-action:manipulation}.dir:active{transform:scale(.94);background:#1b2932}.dir.up{grid-column:2}.dir.left{grid-column:1;grid-row:2}.dir.down{grid-column:2;grid-row:2}.dir.right{grid-column:3;grid-row:2}@keyframes shine{0%,65%{transform:translateX(-100%)}85%,100%{transform:translateX(100%)}}@media(max-width:700px),(pointer:coarse){.controls{display:grid}.hint{display:none}canvas{max-height:58vh}.stage{padding:8px}.overlay{inset:8px}.title{display:none}.score div{min-width:58px;padding:8px}.score{gap:5px}.card h1{font-size:31px}.wrap{padding:8px 0}}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="grid"></div>
+<main class="wrap">
+  <div class="top">
+    <div class="left"><a class="back" href="../index.html">← Library</a><div class="title"><strong>Neon Snake</strong><span>Arcade • survival</span></div></div>
+    <div class="score"><div><span>Score</span><strong id="score">0</strong></div><div><span>Best</span><strong id="best">0</strong></div><button class="btn" id="full" aria-label="Fullscreen">⛶</button></div>
+  </div>
+  <div class="stage" id="stage">
+    <canvas id="game" width="600" height="600"></canvas>
+    <div class="pause-pill" id="pausePill">PAUSED</div>
+    <div class="overlay" id="overlay"><div class="card"><h1 id="overlayTitle">Neon Snake</h1><p id="overlayText">Arrow keys / WASD / swipe to move</p><button class="play" id="start">Start game</button></div></div>
+  </div>
+  <div class="controls" aria-label="Touch controls"><button class="dir up" data-dir="up">▲</button><button class="dir left" data-dir="left">◀</button><button class="dir down" data-dir="down">▼</button><button class="dir right" data-dir="right">▶</button></div>
+  <div class="hint">Collect energy • Avoid walls and yourself • Space = pause</div>
+</main>
+<script>
+(() => {
+  'use strict';
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('score');
+  const bestEl = document.getElementById('best');
+  const overlay = document.getElementById('overlay');
+  const overlayTitle = document.getElementById('overlayTitle');
+  const overlayText = document.getElementById('overlayText');
+  const startBtn = document.getElementById('start');
+  const pausePill = document.getElementById('pausePill');
+  const GRID = 30;
+  const CELL = canvas.width / GRID;
+  const START_SPEED = 105;
+  const MIN_SPEED = 56;
+  let snake = [];
+  let direction = {x:1,y:0};
+  let queuedDirection = {x:1,y:0};
+  let food = {x:20,y:15};
+  let particles = [];
+  let score = 0;
+  let best = Number(localStorage.getItem('gu-snake-best')) || 0;
+  let running = false;
+  let paused = false;
+  let gameOver = false;
+  let accumulator = 0;
+  let lastTime = 0;
+  let rafId = 0;
+  let touchStart = null;
+  bestEl.textContent = best;
+
+  function reset() {
+    snake = [{x:14,y:15},{x:13,y:15},{x:12,y:15}];
+    direction = {x:1,y:0};
+    queuedDirection = {x:1,y:0};
+    particles = [];
+    score = 0;
+    scoreEl.textContent = '0';
+    paused = false;
+    gameOver = false;
+    pausePill.classList.remove('show');
+    spawnFood();
+    draw();
+  }
+
+  function spawnFood() {
+    const free = [];
+    for (let y=0;y<GRID;y++) for (let x=0;x<GRID;x++) if (!snake.some(p=>p.x===x&&p.y===y)) free.push({x,y});
+    food = free[Math.floor(Math.random()*free.length)] || {x:0,y:0};
+  }
+
+  function speed() {
+    return Math.max(MIN_SPEED, START_SPEED - score * 1.7);
+  }
+
+  function setDirection(next) {
+    const map = {up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+    const value = typeof next === 'string' ? map[next] : next;
+    if (!value) return;
+    if (value.x === -direction.x && value.y === -direction.y) return;
+    queuedDirection = value;
+  }
+
+  function createBurst(x,y) {
+    for (let i=0;i<12;i++) particles.push({x:x*CELL+CELL/2,y:y*CELL+CELL/2,vx:(Math.random()-.5)*4,vy:(Math.random()-.5)*4,life:1,size:2+Math.random()*3});
+  }
+
+  function tick() {
+    direction = queuedDirection;
+    const head = {x:snake[0].x+direction.x,y:snake[0].y+direction.y};
+    const outside = head.x<0 || head.y<0 || head.x>=GRID || head.y>=GRID;
+    const hitsSelf = snake.some((part,index)=>index!==snake.length-1 && part.x===head.x && part.y===head.y);
+    if (outside || hitsSelf) return finish();
+    snake.unshift(head);
+    if (head.x===food.x && head.y===food.y) {
+      createBurst(food.x,food.y);
+      score += 1;
+      scoreEl.textContent = String(score);
+      if (score>best) {best=score;bestEl.textContent=String(best);localStorage.setItem('gu-snake-best',String(best));}
+      spawnFood();
+    } else snake.pop();
+  }
+
+  function updateParticles(dt) {
+    particles.forEach(p=>{p.x+=p.vx*dt*.06;p.y+=p.vy*dt*.06;p.life-=dt*.0015;p.vx*=.985;p.vy*=.985;});
+    particles = particles.filter(p=>p.life>0);
+  }
+
+  function drawGrid() {
+    ctx.strokeStyle='rgba(255,255,255,.025)';ctx.lineWidth=1;
+    for(let i=0;i<=GRID;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,canvas.height);ctx.stroke();ctx.beginPath();ctx.moveTo(0,i*CELL);ctx.lineTo(canvas.width,i*CELL);ctx.stroke();}
+  }
+
+  function roundRect(x,y,w,h,r) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
+
+  function draw() {
+    ctx.fillStyle='#07100f';ctx.fillRect(0,0,canvas.width,canvas.height);drawGrid();
+    ctx.save();ctx.shadowBlur=26;ctx.shadowColor='#3fffc5';ctx.fillStyle='#41ffc8';ctx.beginPath();ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL*.31,0,Math.PI*2);ctx.fill();ctx.restore();
+    ctx.save();ctx.strokeStyle='rgba(65,255,200,.22)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL*.44,0,Math.PI*2);ctx.stroke();ctx.restore();
+    snake.forEach((part,index)=>{const g=ctx.createLinearGradient(part.x*CELL,part.y*CELL,part.x*CELL+CELL,part.y*CELL+CELL);g.addColorStop(0,index?'#2fe4b1':'#a4ffea');g.addColorStop(1,index?'#168da6':'#2dd4ff');ctx.fillStyle=g;if(index===0){ctx.shadowBlur=16;ctx.shadowColor='#5fffd0';}roundRect(part.x*CELL+2,part.y*CELL+2,CELL-4,CELL-4,5);ctx.shadowBlur=0;});
+    particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle='#72ffd7';ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();});ctx.globalAlpha=1;
+  }
+
+  function loop(time) {
+    if (!running) return;
+    if (!lastTime) lastTime=time;
+    const delta=Math.min(50,time-lastTime);lastTime=time;
+    if (!paused) {
+      accumulator += delta;
+      const step=speed();
+      while(accumulator>=step && running){tick();accumulator-=step;}
+      updateParticles(delta);
+    }
+    draw();
+    if(running) rafId=requestAnimationFrame(loop);
+  }
+
+  function start() {
+    cancelAnimationFrame(rafId);reset();running=true;overlay.classList.add('hidden');startBtn.textContent='Play again';lastTime=0;accumulator=0;rafId=requestAnimationFrame(loop);
+  }
+
+  function finish() {
+    running=false;gameOver=true;cancelAnimationFrame(rafId);overlayTitle.textContent='Game over';overlayText.textContent=`Score: ${score} • Best: ${best}`;startBtn.textContent='Play again';overlay.classList.remove('hidden');
+  }
+
+  function togglePause() {
+    if(!running || gameOver) return;
+    paused=!paused;pausePill.classList.toggle('show',paused);lastTime=performance.now();
+  }
+
+  document.addEventListener('keydown',e=>{const key=e.key.toLowerCase();const map={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};if(map[key]){e.preventDefault();setDirection(map[key]);}if(e.code==='Space'){e.preventDefault();togglePause();}});
+  document.querySelectorAll('[data-dir]').forEach(btn=>btn.addEventListener('pointerdown',e=>{e.preventDefault();setDirection(btn.dataset.dir);}));
+  canvas.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY};});
+  canvas.addEventListener('pointerup',e=>{if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<22)return;setDirection(Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up'));});
+  startBtn.addEventListener('click',start);
+  document.getElementById('full').addEventListener('click',()=>document.getElementById('stage').requestFullscreen?.().catch(()=>{}));
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)togglePause();});
+  reset();
+})();
+</script>
+</body>
+</html>
